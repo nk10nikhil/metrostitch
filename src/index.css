@@ -1,0 +1,87 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 30 10% 15%;
+
+    --card: 30 33% 99%;
+    --card-foreground: 30 10% 15%;
+
+    --popover: 30 33% 99%;
+    --popover-foreground: 30 10% 15%;
+
+    --primary: 30 10% 15%;
+    --primary-foreground: 30 33% 98%;
+
+    --secondary: 30 10% 93%;
+    --secondary-foreground: 30 10% 15%;
+
+    --muted: 30 10% 93%;
+    --muted-foreground: 30 10% 40%;
+
+    --accent: 25 25% 82%;
+    --accent-foreground: 30 10% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 30 33% 98%;
+
+    --border: 30 10% 88%;
+    --input: 30 10% 88%;
+    --ring: 30 10% 68%;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-jost;
+    overflow-x: hidden;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-[1.02] ease-out;
+  }
+
+  .product-card {
+    @apply overflow-hidden rounded-md;
+  }
+
+  .product-card img {
+    @apply transition-transform duration-500 ease-out;
+  }
+
+  .product-card:hover img {
+    @apply scale-110;
+  }
+
+  .hero-scroll-indicator {
+    @apply animate-bounce absolute bottom-8 left-1/2 -translate-x-1/2;
+  }
+
+  .text-shadow {
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .clip-path-slant {
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  }
+}
+
+@layer utilities {
+  .font-jost {
+    font-family: 'Jost', sans-serif;
+  }
+}
