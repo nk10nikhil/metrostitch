@@ -139,7 +139,7 @@ const CustomerStories = () => {
   }, [isMobile]);
 
   return (
-    <section ref={sectionRef} className="py-14 bg-gradient-to-t from-fashion-pearl/90 to-white/60 overflow-hidden">
+    <section ref={sectionRef} className="py-14 bg-gradient-to-t from-fashion-pearl/90 to-white/60">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-light text-center mb-2 animate-fade-in">
           Customer <span className="font-semibold">Stories</span>
@@ -149,7 +149,7 @@ const CustomerStories = () => {
         </p>
         <div
           ref={cardsRef}
-          className={`flex md:flex-row md:gap-10 items-stretch ${isMobile ? 'overflow-x-auto' : 'overflow-x-hidden'} gap-5 scroll-x-momentum transition-transform duration-1000`}
+          className={`flex md:flex-row md:gap-10 items-stretch ${isMobile ? 'overflow-x-auto' : ''} gap-5 scroll-x-momentum transition-transform duration-1000`}
           aria-label="Customer Testimonials"
           tabIndex={0}
           style={{

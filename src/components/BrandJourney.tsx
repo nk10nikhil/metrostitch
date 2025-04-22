@@ -213,9 +213,9 @@ const BrandJourney = () => {
               </div>
 
               {/* Connector lines between steps */}
-              {!isMobile && index < journeySteps.length - 1 && (
+              {/* {!isMobile && index < journeySteps.length - 1 && (
                 <div className={`connector-${index} hidden md:block absolute left-1/2 transform -translate-x-1/2 mt-8 h-16 w-0.5 bg-gradient-to-b from-fashion-terracotta/30 to-fashion-sage/30`}></div>
-              )}
+              )} */}
             </div>
           ))}
         </div>

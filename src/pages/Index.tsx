@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import NavBar from '@/components/NavBar';
 import Hero from '@/components/Hero';
 import Collections from '@/components/Collections';
@@ -18,92 +18,94 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useIsMobile } from '@/hooks/use-mobile';
+import animationUtils from '@/lib/animation-utils';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const Index = () => {
   const isMobile = useIsMobile();
+  const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ScrollTrigger.refresh();
+    // Configure global animation settings based on device type
+    animationUtils.configureMobileAnimations(isMobile);
 
-    // Enhanced smoother entry fade+scale, more pronounced on mobile
-    gsap.utils.toArray<HTMLElement>('[data-animate]').forEach((element, idx) => {
-      const baseTimeline = {
-        y: isMobile ? 18 : 36,
-        opacity: 0,
-        scale: isMobile ? 0.97 : 1
-      };
-      const toTimeline = {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: isMobile ? 0.65 : 1,
-        ease: isMobile ? 'expo.out' : 'power3.out',
-        delay: isMobile ? 0.06 * idx : 0,
-        scrollTrigger: {
-          trigger: element,
-          start: isMobile ? 'top 92%' : 'top 85%',
-          toggleActions: 'play none none reverse'
-        }
-      };
-      gsap.fromTo(element, baseTimeline, toTimeline);
-    });
+    // Delay ScrollTrigger refresh to ensure all content is properly loaded
+    const refreshTimer = setTimeout(() => {
+      animationUtils.refreshScrollTrigger();
+    }, 500);
 
-    // Momentum-feel for all horizontal scroll sections on mobile
     if (isMobile) {
-      const horizontals = document.querySelectorAll('.scroll-x-momentum');
-      horizontals.forEach((node) => {
-        (node as HTMLElement).style.scrollSnapType = "x mandatory";
-        (node as HTMLElement).style.setProperty("scrollBehavior", "smooth");
-      });
+      // Reset any previous scroll position when the page loads on mobile
+      window.scrollTo(0, 0);
+
+      // Apply optimized animations to elements with data-animate attribute
+      const animatedElements = gsap.utils.toArray<HTMLElement>('[data-animate]');
+      animationUtils.setupScrollAnimations(animatedElements, true);
+
+      // Optimize horizontal scrolling sections for mobile
+      animationUtils.optimizeHorizontalScrolling('.scroll-x-momentum');
+    } else {
+      // Desktop animations
+      const animatedElements = gsap.utils.toArray<HTMLElement>('[data-animate]');
+      animationUtils.setupScrollAnimations(animatedElements, false);
     }
 
-    // Set up improved smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Improved smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href') || "");
+        const targetSelector = anchor.getAttribute('href') || "";
+        const target = document.querySelector(targetSelector);
+
         if (target) {
           gsap.to(window, {
-            duration: isMobile ? 0.7 : 1,
+            duration: isMobile ? 0.5 : 0.8, // Faster on mobile
             scrollTo: {
               y: target,
-              offsetY: isMobile ? 56 : 80
+              offsetY: isMobile ? 56 : 80,
+              autoKill: true // Auto-kill for better performance
             },
-            ease: "power3.inOut"
+            ease: "power2.inOut" // Simpler easing function
           });
         }
       });
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      clearTimeout(refreshTimer);
+      animationUtils.cleanupScrollTrigger();
     };
   }, [isMobile]);
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden" ref={pageRef}>
       <NavBar />
+      
       <Hero />
       <Collections />
-      <StyleInspiration />
-      <BrandJourney />
-      <BrandValues />
+      <Products />
       <BrandStory />
-      <CustomerStories />
-      <Lookbook />
-      <EcoMission />
-      <div className="py-12 bg-fashion-cream">
+
+
+      <BrandValues />
+      <div className="pb-12 bg-fashion-cream">
         <div className="container mx-auto px-4 flex flex-col items-center" data-animate>
           <p className="text-xl md:text-3xl font-light text-center max-w-3xl">
             "Style is a way to say who you are without having to speak."
           </p>
-          <p className="mt-4 text-fashion-charcoal/70">— Rachel Zoe</p>
+          <p className="mt-4 text-fashion-charcoal/70">— Dope Beyond</p>
         </div>
       </div>
+      <StyleInspiration />
+      {/* <BrandJourney /> */}
+      
+
+      {/* <Lookbook /> */}
       <SeasonalTrends />
-      <Products />
+      <CustomerStories />
+      <EcoMission />
+      
       <Newsletter />
       <Footer />
     </div>

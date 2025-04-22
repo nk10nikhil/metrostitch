@@ -270,7 +270,7 @@ const StyleInspiration = () => {
 
           <div
             ref={scrollRef}
-            className={`scroll-x-momentum flex gap-6 md:gap-10 items-stretch ${isMobile ? 'overflow-x-auto' : 'overflow-x-hidden'} pb-2 md:pb-0 cursor-grab active:cursor-grabbing`}
+            className={`scroll-x-momentum flex gap-6 md:gap-10 items-stretch ${isMobile ? 'overflow-x-auto' : ''} pb-2 md:pb-0 cursor-grab active:cursor-grabbing`}
             tabIndex={0}
             aria-label="Style Inspiration Gallery"
             style={{

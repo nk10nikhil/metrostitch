@@ -1,7 +1,7 @@
-
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useIsMobile } from "./use-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,35 +17,35 @@ export function useGsapSectionReveal(
     mobileOnly?: boolean;
   }
 ) {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     if (!ref.current) return;
+
     const mm = gsap.matchMedia();
     const { staggerChildren, from, to, useScale, useRotate, useParallax, mobileOnly } = options || {};
 
     mm.add("(max-width: 767px)", () => {
-      // MOBILE animations
+      // MOBILE animations - simplified for better performance
       if (staggerChildren) {
         gsap.fromTo(
           ref.current?.children,
           {
             opacity: 0,
-            y: 42,
-            scale: useScale ? 0.93 : 1,
-            rotateZ: useRotate ? 3 : 0,
+            y: 30, // Reduced movement for mobile
+            scale: useScale ? 0.97 : 1, // Less extreme scaling
           },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            rotateZ: 0,
-            duration: 1,
-            ease: "power3.out",
-            stagger: 0.16,
+            duration: 0.8, // Faster animation on mobile
+            ease: "power2.out",
+            stagger: 0.1, // Smaller stagger value for quicker reveals
             scrollTrigger: {
               trigger: ref.current,
               start: "top 94%",
-              end: "bottom 40%",
-              toggleActions: "play none none reverse",
+              toggleActions: "play none none none", // Simplified toggle actions
             }
           }
         );
@@ -54,25 +54,25 @@ export function useGsapSectionReveal(
           ref.current,
           {
             opacity: 0,
-            y: 44,
+            y: 30, // Reduced movement
             ...from
           },
           {
             opacity: 1,
             y: 0,
             ...to,
-            duration: 1.15,
+            duration: 0.8,
             ease: "power2.out",
             scrollTrigger: {
               trigger: ref.current,
               start: "top 95%",
-              toggleActions: "play none none reverse",
+              toggleActions: "play none none none",
             }
           }
         );
       }
 
-      // Parallax effect (background)
+      // Parallax effect (background) - simplified for mobile
       if (useParallax) {
         gsap.to(ref.current, {
           backgroundPositionY: "45%",
@@ -80,7 +80,7 @@ export function useGsapSectionReveal(
             trigger: ref.current,
             start: "top bottom",
             end: "bottom top",
-            scrub: true
+            scrub: 0.5, // Reduced scrub for better performance
           }
         });
       }
@@ -108,7 +108,6 @@ export function useGsapSectionReveal(
               scrollTrigger: {
                 trigger: ref.current,
                 start: "top 90%",
-                end: "bottom 60%",
                 toggleActions: "play none none reverse",
               }
             }
@@ -152,5 +151,5 @@ export function useGsapSectionReveal(
     return () => {
       mm.revert();
     };
-  }, [ref, options]);
+  }, [ref, options, isMobile]);
 }

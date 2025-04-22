@@ -25,57 +25,88 @@ const Newsletter = () => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+        start: 'top 85%',
+        toggleActions: isMobile ? "play none none none" : "play none none reverse"
       }
     });
 
-    // Staggered title and text reveal with blur effect
-    tl.fromTo(
-      contentRef.current?.querySelectorAll('.animate-text'),
-      { y: 30, opacity: 0, filter: 'blur(4px)' },
-      {
-        y: 0,
-        opacity: 1,
-        filter: 'blur(0px)',
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power2.out"
-      }
-    );
+    // Simplified animations for mobile to improve performance
+    if (isMobile) {
+      // Simpler animation for title and text
+      tl.fromTo(
+        contentRef.current?.querySelectorAll('.animate-text'),
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power2.out"
+        }
+      );
 
-    // Form animation with bounce effect
-    tl.fromTo(
-      formRef.current,
-      { y: 20, opacity: 0, scale: 0.95 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.7,
-        ease: "back.out(1.5)"
-      },
-      "-=0.3"
-    );
+      // Simpler form animation
+      tl.fromTo(
+        formRef.current,
+        { y: 15, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power1.out"
+        },
+        "-=0.2"
+      );
 
-    // Floating decorative elements animation
-    const particles = document.querySelectorAll('.newsletter-particle');
-    particles.forEach((particle) => {
-      gsap.to(particle, {
-        y: gsap.utils.random(-15, -30),
-        x: gsap.utils.random(-10, 10),
-        rotation: gsap.utils.random(-10, 10),
-        duration: gsap.utils.random(3, 5),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
+      // No floating particles animation on mobile for better performance
+    } else {
+      // Full animations for desktop
+      tl.fromTo(
+        contentRef.current?.querySelectorAll('.animate-text'),
+        { y: 30, opacity: 0, filter: 'blur(4px)' },
+        {
+          y: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power2.out"
+        }
+      );
+
+      // Form animation with bounce effect
+      tl.fromTo(
+        formRef.current,
+        { y: 20, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: "back.out(1.5)"
+        },
+        "-=0.3"
+      );
+
+      // Floating decorative elements animation only on desktop
+      const particles = document.querySelectorAll('.newsletter-particle');
+      particles.forEach((particle) => {
+        gsap.to(particle, {
+          y: gsap.utils.random(-15, -30),
+          x: gsap.utils.random(-10, 10),
+          rotation: gsap.utils.random(-10, 10),
+          duration: gsap.utils.random(3, 5),
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
       });
-    });
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, []);
+  }, [isMobile]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,23 +162,27 @@ const Newsletter = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-fashion-sage/15 clip-path-slant relative overflow-hidden"
+      className="py-16 md:py-20 bg-fashion-sage/15 clip-path-slant relative overflow-hidden"
     >
-      {/* Background decorative elements */}
-      <div className="newsletter-particle absolute top-10 left-[10%] w-16 h-16 rounded-full bg-fashion-terracotta/5 filter blur-xl"></div>
-      <div className="newsletter-particle absolute bottom-20 right-[15%] w-24 h-24 rounded-full bg-fashion-sage/10 filter blur-xl"></div>
-      <div className="newsletter-particle absolute top-1/4 right-[20%] w-10 h-10 rounded-full border-2 border-dashed border-fashion-terracotta/20 opacity-40"></div>
-      <div className="newsletter-particle absolute bottom-1/3 left-[25%] w-12 h-12 rounded-full border border-fashion-sage/20 opacity-30"></div>
+      {/* Background decorative elements - hidden on mobile for better performance */}
+      {!isMobile && (
+        <>
+          <div className="newsletter-particle absolute top-10 left-[10%] w-16 h-16 rounded-full bg-fashion-terracotta/5 filter blur-xl"></div>
+          <div className="newsletter-particle absolute bottom-20 right-[15%] w-24 h-24 rounded-full bg-fashion-sage/10 filter blur-xl"></div>
+          <div className="newsletter-particle absolute top-1/4 right-[20%] w-10 h-10 rounded-full border-2 border-dashed border-fashion-terracotta/20 opacity-40"></div>
+          <div className="newsletter-particle absolute bottom-1/3 left-[25%] w-12 h-12 rounded-full border border-fashion-sage/20 opacity-30"></div>
+        </>
+      )}
 
       <div className="container mx-auto px-4">
         <div
           ref={contentRef}
           className="max-w-3xl mx-auto text-center"
         >
-          <h2 className="animate-text text-3xl md:text-4xl font-light mb-4">
+          <h2 className="animate-text text-2xl sm:text-3xl md:text-4xl font-light mb-3 md:mb-4">
             <span className="font-semibold bg-gradient-to-r from-fashion-terracotta to-fashion-sage bg-clip-text text-transparent">Subscribe</span> to Our Newsletter
           </h2>
-          <p className="animate-text text-fashion-charcoal/70 mb-8">
+          <p className="animate-text text-fashion-charcoal/70 mb-6 md:mb-8 text-sm md:text-base">
             Be the first to know about new collections, special offers, and exclusive events.
             Join our community of fashion enthusiasts.
           </p>
@@ -184,7 +219,7 @@ const Newsletter = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  SUBSCRIBING
+                  {isMobile ? 'SENDING' : 'SUBSCRIBING'}
                 </span>
               ) : isSubscribed ? (
                 <span className="flex items-center">
@@ -192,7 +227,7 @@ const Newsletter = () => {
                   SUBSCRIBED
                 </span>
               ) : (
-                <span className="flex items-center">
+                <span className="flex items-center whitespace-nowrap">
                   SUBSCRIBE
                   <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </span>

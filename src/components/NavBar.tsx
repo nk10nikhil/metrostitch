@@ -21,13 +21,31 @@ const NavBar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobile) {
+      if (mobileMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen, isMobile]);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 shadow-sm backdrop-blur-sm py-3' 
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-white/95 shadow-sm backdrop-blur-sm py-3'
           : 'bg-transparent py-5'
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
@@ -76,7 +94,7 @@ const NavBar = () => {
             </button>
             {isMobile && (
               <button
-                title='menu'  
+                title='menu'
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden text-fashion-charcoal"
               >
@@ -89,37 +107,57 @@ const NavBar = () => {
 
       {/* Mobile Menu */}
       {isMobile && (
-        <div 
-          className={`fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out ${
-            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+        <div
+          className={`fixed inset-0 bg-white z-50 transform transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+            }`}
         >
           <div className="p-6">
             <div className="flex justify-between items-center mb-8">
+              <a href="/" className="font-jost text-xl font-semibold text-fashion-charcoal">
+                <img src="/logo.png" alt="Logo" className="h-10" />
+              </a>
               <button
                 title="Close Menu"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal hover:text-orange-700 transition-colors"
               >
-                <X size={24} />
-              </button>
-              <button onClick={() => setMobileMenuOpen(false)}>
                 <X size={24} />
               </button>
             </div>
             <div className="flex flex-col space-y-6">
-              <a href="#" className="text-fashion-charcoal text-xl py-2 border-b border-gray-100">
+              <a
+                href="#"
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal text-xl py-2 border-b border-gray-100"
+              >
                 NEW ARRIVALS
               </a>
-              <a href="#" className="text-fashion-charcoal text-xl py-2 border-b border-gray-100">
+              <a
+                href="#"
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal text-xl py-2 border-b border-gray-100"
+              >
                 WOMEN
               </a>
-              <a href="#" className="text-fashion-charcoal text-xl py-2 border-b border-gray-100">
+              <a
+                href="#"
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal text-xl py-2 border-b border-gray-100"
+              >
                 MEN
               </a>
-              <a href="#collections" className="text-fashion-charcoal text-xl py-2 border-b border-gray-100">
+              <a
+                href="#collections"
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal text-xl py-2 border-b border-gray-100"
+              >
                 COLLECTIONS
               </a>
-              <a href="#products" className="text-fashion-charcoal text-xl py-2 border-b border-gray-100">
+              <a
+                href="#products"
+                onClick={closeMobileMenu}
+                className="text-fashion-charcoal text-xl py-2 border-b border-gray-100"
+              >
                 SHOP
               </a>
             </div>
