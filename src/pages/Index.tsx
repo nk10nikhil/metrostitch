@@ -88,13 +88,12 @@ const Index = () => {
       <Hero />
       <Collections />
       <StyleInspiration />
+      <BrandJourney />
       <BrandValues />
       <BrandStory />
-      <BrandJourney />
       <CustomerStories />
       <Lookbook />
       <EcoMission />
-      <FeaturedDesigners />
       <div className="py-12 bg-fashion-cream">
         <div className="container mx-auto px-4 flex flex-col items-center" data-animate>
           <p className="text-xl md:text-3xl font-light text-center max-w-3xl">
