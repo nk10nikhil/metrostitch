@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div>
-            <h3 className="text-xl font-medium mb-4">ELEGANCE</h3>
+            <img src="./footer.png" alt="Elegance" className="mb-4" />
             <p className="text-white/60 mb-6">
               Timeless styles for the modern individual. Sustainably crafted with attention to detail.
             </p>
