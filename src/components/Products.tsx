@@ -106,8 +106,8 @@ const Products = () => {
     {
       id: 1,
       name: 'Modern Relaxed Shirt',
-      image: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44b?q=80&w=987',
-      price: 79.99,
+      image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=987',
+      price: 879.99,
       rating: 4.8,
       reviews: 126,
       sale: false
@@ -116,8 +116,8 @@ const Products = () => {
       id: 2,
       name: 'Classic Denim Jacket',
       image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1036',
-      price: 129.99,
-      originalPrice: 169.99,
+      price: 1299.99,
+      originalPrice: 1699.99,
       rating: 4.9,
       reviews: 84,
       sale: true
@@ -126,7 +126,7 @@ const Products = () => {
       id: 3,
       name: 'Minimalist Linen Dress',
       image: 'https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=1170',
-      price: 89.99,
+      price: 899.99,
       rating: 4.7,
       reviews: 62,
       sale: false
@@ -135,8 +135,8 @@ const Products = () => {
       id: 4,
       name: 'Urban Trench Coat',
       image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=987',
-      price: 199.99,
-      originalPrice: 249.99,
+      price: 1990.99,
+      originalPrice: 2249.99,
       rating: 4.6,
       reviews: 49,
       sale: true
@@ -209,11 +209,11 @@ const Products = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">
-                      ${product.price}
+                      Rs {product.price}
                     </span>
                     {product.originalPrice && (
                       <span className="text-gray-400 line-through text-sm">
-                        ${product.originalPrice}
+                        Rs {product.originalPrice}
                       </span>
                     )}
                   </div>
