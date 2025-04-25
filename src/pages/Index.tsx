@@ -19,6 +19,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useIsMobile } from '@/hooks/use-mobile';
 import animationUtils from '@/lib/animation-utils';
+import { FeaturesSection } from '@/components/FeaturesSection';
+import { InstagramFeed } from '@/components/InstagramFeed';
+import { CategoriesSection } from '@/components/CategoriesSection';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -83,9 +86,12 @@ const Index = () => {
       <NavBar />
       
       <Hero />
+      <FeaturesSection />
       <Collections />
       <Products />
       <BrandStory />
+
+      <CategoriesSection />
 
 
       <BrandValues />
@@ -107,6 +113,7 @@ const Index = () => {
       <EcoMission />
       
       <Newsletter />
+      <InstagramFeed />
       <Footer />
     </div>
   );
