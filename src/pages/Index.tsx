@@ -22,6 +22,8 @@ import animationUtils from '@/lib/animation-utils';
 import { FeaturesSection } from '@/components/FeaturesSection';
 import { InstagramFeed } from '@/components/InstagramFeed';
 import { CategoriesSection } from '@/components/CategoriesSection';
+import ParallaxBanner from '@/components/home/ParallaxBanner';
+import ProductsGrid from '@/components/home/ProductsGrid';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -84,16 +86,13 @@ const Index = () => {
   return (
     <div className="overflow-x-hidden" ref={pageRef}>
       <NavBar />
-      
       <Hero />
       <FeaturesSection />
       <Collections />
       <Products />
       <BrandStory />
-
       <CategoriesSection />
-
-
+      <ParallaxBanner />
       <BrandValues />
       <div className="pb-12 bg-fashion-cream">
         <div className="container mx-auto px-4 flex flex-col items-center" data-animate>
@@ -105,13 +104,11 @@ const Index = () => {
       </div>
       <StyleInspiration />
       {/* <BrandJourney /> */}
-      
-
       {/* <Lookbook /> */}
       <SeasonalTrends />
+      <ProductsGrid />
       <CustomerStories />
       <EcoMission />
-      
       <Newsletter />
       <InstagramFeed />
       <Footer />
